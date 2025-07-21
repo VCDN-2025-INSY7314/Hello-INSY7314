@@ -28,11 +28,42 @@ You will also reflect on the importance of security in real-world polling and vo
     - app.js (Express setup)
     - server.js (entry point, connects to MongoDB)
 - Create folders: models, routes, controllers, middleware
+- Add a .env file:
+    ```
+    PORT=5000
+    ```
 - Create a simple route in app.js:
     ```js
-    app.get('/', (req, res) => res.send('PulseVote API running!'));
+    const express = require('express');
+    const cors = require('cors'); // this will be discussed later
+    const helmet = require('helmet'); // this will be discussed later
+    const dotenv = require('dotenv');
+
+    dotenv.config();
+
+    const app = express();
+
+    app.use(helmet());
+    app.use(cors());
+    app.use(express.json());
+
+    app.get('/', (req, res) => {
+    res.send('PulseVote API running!');
+    });
     ```
-- Test your server:
+- Configure server in server.js
+    ```js
+    const mongoose = require('mongoose'); // this will be used later
+    const app = require('./app');
+    require('dotenv').config();
+
+    const PORT = process.env.PORT || 5000;
+
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+    ```
+- Test your server by running this command:
     ```
     npx nodemon server.js
     ```
@@ -51,7 +82,24 @@ You will also reflect on the importance of security in real-world polling and vo
     ```
     npm run dev
     ```
-- Visit the provided local URL. Edit src/App.jsx to display “Welcome to PulseVote”.
+- Visit the provided local URL. 
+- Edit src/App.jsx to display “Welcome to PulseVote”.
+    ```js
+    import { useState, useEffect } from 'react'
+    import './App.css'
+
+    function App() {
+
+    return (
+        <>
+            <h2>Welcome to PulseVote</h2>
+        </>
+    )
+    }
+
+    export default App
+
+    ```
 
 ### 4. Secure Project Hygiene
 
@@ -61,20 +109,13 @@ You will also reflect on the importance of security in real-world polling and vo
     .env
     dist
     ```
-- Create a .env file for backend:
+- Create a .env file for backend (you would have done this already):
     ```
-    MONGO_URI=mongodb://localhost:27017/pulsevote
-    JWT_SECRET=changeMeToSomethingStrong
     PORT=5000
     ```
-    (Don’t commit this file to Git!)
-- Initialize Git repositories in both folders:
-    ```
-    git init
-    git add .
-    git commit -m "Initial scaffold"
-    ```
-    (You may push to your own GitHub if required.)
+    (Don’t commit this file to Git - added to gitignore)
+
+- Initialize Git repositories in both folders - we will push to git repos - see Teams for links
 
 ### 5. Dependency Audit
 
@@ -85,7 +126,13 @@ You will also reflect on the importance of security in real-world polling and vo
     If any high/critical vulnerabilities are listed, try `npm audit fix` and rerun.
 - Do the same for the frontend.
 
-### 6. Deliverables
+### 6. JSON 
+
+- Let the backend serve JSON at an endpoint `/test`
+- Allow the frontend to consume this JSON on the homepage.
+- Push changes to GitHub
+
+### 7. Deliverables
 
 - For class discussion: 
     - A short written reflection (3–4 sentences):
@@ -97,11 +144,13 @@ You will also reflect on the importance of security in real-world polling and vo
     - Documentation within the README.md file
     - Commit history with at least two commits.
     - .gitignore and .env set up correctly in both projects.
-    - Claim backend repo: https://classroom.github.com/a/wib6AI8Z
+    - Push to GitHub Classroom - repo claim link on Teams.
+
 - Frontend
     - A working frontend (React) that displays “Welcome to PulseVote”.
     - Documentation within the README.md file
     - Commit history with at least two commits.
     - .gitignore and .env set up correctly in both projects.
-    - Claim frontend repo: https://classroom.github.com/a/59Pt9kw6    
+    - Push to GitHub Classroom - repo claim link on Teams.
+
 
