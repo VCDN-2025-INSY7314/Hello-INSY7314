@@ -50,6 +50,8 @@ You will also reflect on the importance of security in real-world polling and vo
     app.get('/', (req, res) => {
     res.send('PulseVote API running!');
     });
+
+    module.exports = app;
     ```
 - Configure server in server.js
     ```js
