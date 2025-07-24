@@ -61,9 +61,7 @@ DNS.1 = localhost
 
 Open Git Bash and run 
 ```
-openssl req -x509 -nodes -days 365 -newkey rsa:2048
--keyout ssl/key.pem -out ssl/cert.pem
--config ssl/openssl.cnf -extensions v3_req
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ssl/key.pem -out ssl/cert.pem -config ssl/openssl.cnf -extensions v3_req
 ```
 You should now have `key.pem` and `cert.pem` in `backend/ssl`.
 
