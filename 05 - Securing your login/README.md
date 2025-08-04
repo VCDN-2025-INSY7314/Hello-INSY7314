@@ -1,6 +1,6 @@
 # Securing your login
 
-## Front-end suggestions:
+## Front-end suggestions
 
 1. Basic checks for validity before passing data to the API:
     ```js
@@ -55,7 +55,7 @@
     .trim().escape();
     ```
 
-    Update routes to use the validator:
+    Update routes to use the validators:
     ```js
     router.post("/register", [emailValidator, passwordValidator], register);
     router.post("/login", [emailValidator, body("password").notEmpty().trim().escape()], login);
@@ -70,12 +70,11 @@
     Then, in the register function:
     ```js
     exports.register = async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty())
+            return res.status(400).json({ message: "Invalid input", errors: errors.array() });
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-        return res.status(400).json({ message: "Invalid input", errors: errors.array() });
-
-        // rest of your logic
+            // rest of your logic
     }
     ```
     Then, do the same for the login function.
