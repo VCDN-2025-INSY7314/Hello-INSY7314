@@ -21,7 +21,7 @@ This guide explains how to apply auth to your PulseVote app and store profiles i
 You will need to:
 1. Configure MongoDB
 2. Make API changes
-3. Make frontend changes
+3. Make frontend changes (see next activity)
 
 Remember, you need to research and understand as you go...
 
@@ -201,30 +201,3 @@ module.exports = { protect };
 2. Login and get the token
 3. Make a request to the protected endpoint using the token, and without the token.
 
-## Frontend changes
-Here, we will build the ability to login, register, logout, and view a dashboard if successfully logged in.
-
-### Getting started
-
-Build out this structure:
-```
-src/
-├── components/
-│   ├── Layout.jsx
-│   ├── Login.jsx
-│   ├── ProtectedRoute.jsx
-│   ├── Register.jsx
-├── pages/
-│   ├── DashboardPage.jsx
-│   ├── HomePage.jsx
-│   ├── LoginPage.jsx
-│   ├── LogoutPage.jsx
-│   ├── RegisterPage.jsx
-```
-
-Run npm install
-```
-npm install react-router-dom axios
-```
-
-Build your front-end!
