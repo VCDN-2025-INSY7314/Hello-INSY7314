@@ -1,6 +1,6 @@
-# Adding in CSP with Helment
+# Adding in CSP with Helmet
 
-Read up on helment..
+Read up on helmet..
 
 1. What does it offer by default? How do they benefit your tech stack?
 2. Add in a CSP to `app.js` in your backend app
