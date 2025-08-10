@@ -571,4 +571,5 @@ Now that we cater for different roles and organisations, we can add functionalit
 
 1. I have shared [Postman Test Script](/07%20-%20Adding%20RBAC/PulseVote%20RBAC%20Test.postman_collection.json). This script will test the API using some predefined values. Where it gets tokens, organisation and poll IDs, it will save them for use in subsequent requests.
 2. Download and edit it in VS Code to add the variables at the bottom. Add passwords only. The rest of the blank values are added when you run it.. 
+4. Clear your MongoDB collections orupdate the values in the json config file to ensure no duplicates.
 3. Open it in Postman and run the tests. If you have configured your API correctly, it should pass all tests. If not, either adjust your API or tests.
