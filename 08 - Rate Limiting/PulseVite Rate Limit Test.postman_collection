@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "394dccd8-e660-48ca-b2ce-275a5b7ccfa4",
+		"name": "PulseVote Rate Limit Test",
+		"description": "Loops /register-user and /login over HTTPS until express-rate-limit returns 429.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10616096"
+	},
+	"item": [
+		{
+			"name": "Looped Register Rate Limit Test (HTTPS)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"if (!pm.variables.get('iteration')) { pm.variables.set('iteration', 1); }",
+							"if (pm.variables.get('stopLoop') === 'true') { postman.setNextRequest(null); }",
+							"const iter = pm.variables.get('iteration');",
+							"const uniqueEmail = `user${Date.now()}_${iter}@example.com`;",
+							"pm.variables.set('uniqueEmail', uniqueEmail);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const iteration = parseInt(pm.variables.get('iteration'));",
+							"console.log(`Iteration: ${iteration} | Status: ${pm.response.code}`);",
+							"const limit = pm.response.headers.get('RateLimit-Limit');",
+							"const remaining = pm.response.headers.get('RateLimit-Remaining');",
+							"if (limit) console.log('RateLimit-Limit:', limit);",
+							"if (remaining) console.log('RateLimit-Remaining:', remaining);",
+							"if (pm.response.code === 429) {",
+							"  pm.variables.set('stopLoop', 'true');",
+							"  postman.setNextRequest(null);",
+							"} else {",
+							"  pm.variables.set('iteration', iteration + 1);",
+							"  postman.setNextRequest(pm.info.requestName);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"{{uniqueEmail}}\",\n  \"password\": \"Test1234\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5000/api/auth/register-user",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"register-user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Looped Login Rate Limit Test (HTTPS)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"if (!pm.variables.get('iteration')) { pm.variables.set('iteration', 1); }",
+							"if (pm.variables.get('stopLoop') === 'true') { postman.setNextRequest(null); }",
+							"pm.variables.set('loginEmail', pm.variables.get('loginEmail') || 'test@example.com');",
+							"pm.variables.set('loginPassword', 'WrongPass123!');"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const iteration = parseInt(pm.variables.get('iteration'));",
+							"console.log(`Iteration: ${iteration} | Status: ${pm.response.code}`);",
+							"const limit = pm.response.headers.get('RateLimit-Limit');",
+							"const remaining = pm.response.headers.get('RateLimit-Remaining');",
+							"if (limit) console.log('RateLimit-Limit:', limit);",
+							"if (remaining) console.log('RateLimit-Remaining:', remaining);",
+							"if (pm.response.code === 429) {",
+							"  pm.variables.set('stopLoop', 'true');",
+							"  postman.setNextRequest(null);",
+							"} else {",
+							"  pm.variables.set('iteration', iteration + 1);",
+							"  postman.setNextRequest(pm.info.requestName);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"{{loginEmail}}\",\n  \"password\": \"{{loginPassword}}\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5000/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
