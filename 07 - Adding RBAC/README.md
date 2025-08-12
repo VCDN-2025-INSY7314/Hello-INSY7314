@@ -217,6 +217,7 @@ Here, you need to update the API to include support for different roles.
 
     const { requireRole } = require("../middleware/roleMiddleware");
 
+    // remove /register endpoint and include these ones.
     router.post("/register-user", [emailValidator, passwordValidator], registerUser);
     router.post("/register-manager", protect, requireRole("admin"), [emailValidator, passwordValidator], registerManager);
     router.post("/register-admin", [emailValidator, passwordValidator], registerAdmin);
@@ -531,7 +532,7 @@ Now that we cater for different roles and organisations, we can add functionalit
     };
     ```
 3. Now, let's add it route with the following rules:
-    * Managers can take polls
+    * Managers can create  polls
     * Only Users can complete polls.
     * Registered users can view polls or results
     * Managers can open or close polls
@@ -570,6 +571,6 @@ Now that we cater for different roles and organisations, we can add functionalit
 ### 4. Postman Testing
 
 1. I have shared [Postman Test Script](/07%20-%20Adding%20RBAC/PulseVote%20RBAC%20Test.postman_collection.json). This script will test the API using some predefined values. Where it gets tokens, organisation and poll IDs, it will save them for use in subsequent requests.
-2. Download and edit it in VS Code to add the variables at the bottom. Add passwords only. The rest of the blank values are added when you run it.. 
-4. Clear your MongoDB collections orupdate the values in the json config file to ensure no duplicates.
+2. Download and edit it in VS Code to add the variables at the bottom. Add passwords only. The rest of the blank values are added when you run it. 
+4. Clear your MongoDB collections or update the values in the json config file to ensure no duplicates.
 3. Open it in Postman and run the tests. If you have configured your API correctly, it should pass all tests. If not, either adjust your API or tests.
