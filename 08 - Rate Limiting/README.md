@@ -35,17 +35,20 @@ npm i express-rate-limit
 Create `middleware/rateLimiter.js`:
 
 ```js
-onst rateLimit = require('express-rate-limit');
+const { rateLimit, ipKeyGenerator } = require('express-rate-limit');
 
-const keyByIp = (req) =>
-  req.ip ||
-  req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
-  req.connection?.remoteAddress ||
-  'unknown';
+const keyByIp = (req) => {
+  return ipKeyGenerator(
+    req.ip ||
+    req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+    req.connection?.remoteAddress ||
+    'unknown'
+  );
+};
 
 const registerLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 5,
+  limit: 5,
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: keyByIp,
@@ -57,17 +60,21 @@ const registerLimiter = rateLimit({
 });
 
 const loginLimiter = rateLimit({
-    windowMs: 10 * 60 * 1000,
-    max: 5,
-    standardHeaders: true,
-    legacyHeaders: false,
-    skipSuccessfulRequests: true,
-    keyGenerator: (req) => `${keyByIp(req)}:${req.body?.email || ''}`,
-    handler: (req, res) => {
-      return res.status(429).json({
-        message: 'Too many login attempts. Please try again later.'
-      });
-    },
+  windowMs: 10 * 60 * 1000,
+  limit: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skipSuccessfulRequests: true,
+  keyGenerator: (req) => {
+    const email = req.body?.email || '';
+    // Combine safe IP with email
+    return `${keyByIp(req)}:${email}`;
+  },
+  handler: (req, res) => {
+    return res.status(429).json({
+      message: 'Too many login attempts. Please try again later.'
+    });
+  },
 });
 
 module.exports = { registerLimiter, loginLimiter };
