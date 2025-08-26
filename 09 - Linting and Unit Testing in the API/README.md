@@ -1,4 +1,4 @@
-# PulseVote – Rate Limiting (Login & Register)
+# PulseVote – Linting and Unit Testing
 
 ## Research
 Before you code, spend 10–15 minutes exploring what linting and unit tests are and why it matters.

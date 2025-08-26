@@ -1,4 +1,4 @@
-# PulseVote – Rate Limiting (Login & Register)
+# PulseVote – Docker and docker-compose
 
 ## Research
 Before you code, spend 10–15 minutes exploring what linting and unit tests are and why it matters.
@@ -18,10 +18,9 @@ Write a 4–6 sentence summary in your own words and commit it to your repo.
 After this activity, your PulseVote backend will:
 - Be dockerised using a `Dockerfile`
 - Incorporate `docker-compose.yml`
-- Incorporate ``.dockerignore`
-- 
+- Incorporate `.dockerignore`
 
-Note: you will run each script separately but when we get to pipelines, we will run these automatically.
+Note: you will run the container locally with a command here, but when we get to pipelines, we will run these automatically.
 
 ## Code changes
 
