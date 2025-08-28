@@ -220,16 +220,16 @@ Research this in detail - do not blindly copy-paste please...
 3. Add a `docker-compose.yml` - indenting matters!
     ```
     services:
-    api:
-        container_name: api
-        build:
-        context: .
-        dockerfile: Dockerfile
-        ports:
-        - "5000:5000"
-        env_file:
-        - .env
-        restart: unless-stopped
+        api:
+            container_name: api
+            build:
+            context: .
+            dockerfile: Dockerfile
+            ports:
+            - "5000:5000"
+            env_file:
+            - .env
+            restart: unless-stopped
 
     ```
 
