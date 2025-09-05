@@ -8,7 +8,7 @@ By the end of this guide, your API will have
 * A controlled deploy to Render using a Deploy Hook that triggers after CI passes, followed by a timed /health check.
 
 > Important Note: If CircleCI doesn't connect to your repo in the organisation, fork your repo to your personal account and use that for both CircleCI and Render: See here: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo.
-Then, ensure that you also sync the fork as you push to the original repo so changes sync to your forked repo so CircleCI can deploy. See here: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork
+Then, ensure that you also sync the fork as you push to the original repo so changes sync to your forked repo so CircleCI can deploy. See here: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork. To skip sync now each time you commit, try one of these: https://chatgpt.com/share/68ba8cf2-ac38-8011-a6a7-459a9b549672
 
 ## 1. Prerequisites
 
