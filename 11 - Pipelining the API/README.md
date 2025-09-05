@@ -7,10 +7,12 @@ By the end of this guide, your API will have
 * A Docker image build in the pipeline.
 * A controlled deploy to Render using a Deploy Hook that triggers after CI passes, followed by a timed /health check.
 
+> Important Note: If CircleCI doesn't connect to your repo in the organisation, fork your repo to your personal account and use that for both CircleCI and Render: See here: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo.
+Then, ensure that you also sync the fork as you push to the original repo so changes sync to your forked repo so CircleCI can deploy. See here: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork
+
 ## 1. Prerequisites
 
 1. GitHub Organization & Repo
-
    * Repo is private in an organization. - done already
    * In your GitHub org: enable Deploy Keys and install the CircleCI GitHub App with access to this repo. - done by EB
    * Authorize the CircleCI app at the org level. - done by EB
@@ -32,6 +34,8 @@ By the end of this guide, your API will have
 Remember: Never commit `.env` with real secrets. Use CircleCI and Render env vars.
 
 ## 2. CircleCI Setup
+
+Docs: https://circleci.com/docs/guides/getting-started/getting-started/
 
 ### Add the config file
 
