@@ -278,7 +278,7 @@ Notes:
 1. The pipeline will stop running if any step fails.
 2. During execution, Newman results are displayed in the `Run Postman collection` step
 
-### Step 6. Coverage integration
+### Step 5. Coverage integration
 Update `jest.config.js` to include the various directories.
 
 ```js
