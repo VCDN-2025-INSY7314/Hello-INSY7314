@@ -137,11 +137,11 @@ docker_build_and_newman_tests:
           command: |
             CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pulsevote)
             curl -sSf -X POST http://$CONTAINER_IP:5000/reset
-          
-      - run:
+      
+	  - run:
           name: Cleanup
           when: always
-          command: d
+          command: docker rm -f pulsevote || true
 ```
 
 Important points:
