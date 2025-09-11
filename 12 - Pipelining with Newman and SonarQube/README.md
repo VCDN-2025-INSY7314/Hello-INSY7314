@@ -317,6 +317,20 @@ module.exports = {
 > Add in unit tests if your pipeline fails due to test coverage.
 > You need to fix any security or maintainability issues so your pipeline can succeed.
 
+### Step 6: Setup up a cron to run every day at midnight (optional)
+
+Add this to the end of the `config.yml`
+```yaml
+  daily_keepalive:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only: main
+    jobs:
+      - lint_and_test
+```
 ## config.yaml and collection.json - incase you need it.
 
 `config.yml`
