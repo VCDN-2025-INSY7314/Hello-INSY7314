@@ -219,8 +219,11 @@ We are using SonarCloud for static code analysis and test coverage integration.
 In **CircleCI Project Settings → Environment Variables**, set:
 
 - `SONAR_PROJECT` → your project key  
-- `SONAR_ORGANIZATION` → your SonarCloud organization  
+- `SONAR_ORGANIZATION` → your SonarCloud organization key
 - `SONAR_TOKEN` → secure token generated in SonarCloud  
+
+The project key and organization are set by you as your configure your project in SonarCloud.
+They are also available under your project information tab if you need to access them after creating.
 
 ### Step 3. Review Sonar Analysis Job
 Add a new step in `config.yml` under `sonar-analysis`:
@@ -254,7 +257,7 @@ sonar-analysis:
               "https://sonarcloud.io/api/issues/search?projectKeys=$SONAR_PROJECT&statuses=OPEN,CONFIRMED,REOPENED" \
               | sed -n 's/.*"total":[ ]*\([0-9]*\).*/\1/p')
             echo "Total open Sonar issues: $TOTAL"
-            # [ "$TOTAL" -eq 0 ] || (echo "Sonar issues found" && exit 1)
+            [ "$TOTAL" -eq 0 ] || (echo "Sonar issues found" && exit 1) # comment this out to ignore historical issues.
 
 ```
 Important points:
@@ -270,6 +273,16 @@ Before you can run the pipeline, you need to add the workflow steps. Add the fol
     filters:
     branches:
         only: main
+```
+
+Also, update the next step in the workflow.
+```yaml
+- deploy_to_render:
+	requires:
+	- sonar-analysis
+	filters:
+	branches:
+		only: main 
 ```
 
 ### Step 4. Push and test on pipeline
@@ -302,6 +315,7 @@ module.exports = {
 
 ```
 > Add in unit tests if your pipeline fails due to test coverage.
+> You need to fix any security or maintainability issues so your pipeline can succeed.
 
 ## config.yaml and collection.json - incase you need it.
 
@@ -483,7 +497,7 @@ jobs:
               "https://sonarcloud.io/api/issues/search?projectKeys=$SONAR_PROJECT&statuses=OPEN,CONFIRMED,REOPENED" \
               | sed -n 's/.*"total":[ ]*\([0-9]*\).*/\1/p')
             echo "Total open Sonar issues: $TOTAL"
-            # [ "$TOTAL" -eq 0 ] || (echo "Sonar issues found" && exit 1)
+            [ "$TOTAL" -eq 0 ] || (echo "Sonar issues found" && exit 1) # comment this out to ignore historical issues.
 
   deploy_to_render:
     docker:
