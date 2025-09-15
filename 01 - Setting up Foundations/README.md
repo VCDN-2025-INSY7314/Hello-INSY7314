@@ -16,8 +16,8 @@ You will also reflect on the importance of security in real-world polling and vo
 - Write (3-4 sentences): In your own words, summarize why security matters for live polling apps.
 
 ### 2. Build the Backend
-
-- Create a new project folder (e.g., pulsevote-backend) and open it in VS Code.
+- Create a folder one your machine called `pulsevote`. This folder will have subfolders for the backend and frontend projects.
+- Create a new project sub-folder (e.g., pulsevote-backend) and open it in VS Code.
 - Run:
     ```
     npm init -y
@@ -73,7 +73,7 @@ You will also reflect on the importance of security in real-world polling and vo
 
 ### 3. Build the Frontend
 
-- In a new folder (e.g., pulsevote-frontend), run:
+- In the `pulsevote` folder, create a new sub-folder (e.g., pulsevote-frontend), run:
     ```
     npm create vite@latest pulsevote-frontend -- --template react
     cd pulsevote-frontend
