@@ -14,11 +14,12 @@ This guide will take you through the process of:
 
 1. Go to [Grafana.com](https://grafana.com) and sign up (free tier works).
 2. Once logged in, go to **Home** and under the **Getting Started Dashboard**, select **Logs**.
-3. Under infrastructure, choose **Platform as a Service**, then select **Send logs via HTTP**.
-4. Under **Use an API Token**, select **Create a new token**.
-5. Give it a name (e.g. `pulsevote-api`).
-6. Leave the following default scopes `metrics:write, logs:write, traces:write, profiles:write, stacks:read`
-4. Create and copy the token — you’ll only see it once.
+3. If you see the Create New or Use Existing Option, click on **Create New** to create a new logging service. If you do not see this option, move to the next step..
+4. Under infrastructure, choose **Platform as a Service**, then select **Send logs via HTTP**.
+5. Under **Use an API Token**, select **Create a new token**.
+6. Give it a name (e.g. `pulsevote-api`).
+7. Leave the following default scopes `metrics:write, logs:write, traces:write, profiles:write`
+8. Create and copy the token — you’ll only see it once.
 
 ### Step 2. Get URL and User ID
 
@@ -88,6 +89,10 @@ We will only do this, in this tutorial for login. You are required to, once you 
 Example: `controllers/authController.js`
 
 ```js
+const logger = require("../utils/logger");
+
+// ...
+
 exports.login = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
