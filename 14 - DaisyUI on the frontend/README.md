@@ -311,4 +311,6 @@ Update these in your frontend code:
 * Registering a user might be: "https://localhost:5000/api/auth/register-user"
 * Registering an admin or manager will have its endpoint which you will build next.
 
+Run your app and test it.
+
 Once this is done, then you can go ahead and test your application and add more frontend features.
