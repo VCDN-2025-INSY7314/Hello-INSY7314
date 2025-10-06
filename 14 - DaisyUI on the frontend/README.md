@@ -185,15 +185,80 @@ Update the Layout component so we can show links applying DaisyUI:
   );
 ```
 
-Also, update the return of the `Login` component to use DaisyUI.
+Also, update the the `Login` component to use DaisyUI.
 
 ```js
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const isValidEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const isStrongPassword = (password) =>
+    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/.test(password);
+
+  const login = async () => {
+    setError('');
+    setSuccess('');
+    setLoading(true); // we are adding this for the loading on the button
+
+    if (!email || !password) {
+      setError("Email and password are required.");
+      setLoading(false);
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setError("Invalid email format.");
+      setLoading(false);
+      return;
+    }
+
+    if (!isStrongPassword(password)) {
+      setError("Password must be at least 8 characters long, include letters and numbers, and optionally, a special character.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await axios.post("https://localhost:5000/api/auth/login", { email, password });
+
+      const token = res.data.token;
+      localStorage.setItem("token", token);
+
+      const decoded = jwtDecode(token);
+ 
+      const userRole = decoded.roles?.[0]?.role || null;
+
+      if (userRole) {
+        localStorage.setItem("role", userRole);
+      }
+          
+      setSuccess("Successfully logged in.");
+      setTimeout(() => navigate("/dashboard"), 1000);
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="form-control w-full">
       {error && <div className="alert alert-error mb-3">{error}</div>}
       {success && <div className="alert alert-success mb-3">{success}</div>}
 
-      {/* Email */}
       <label className="label">
         <span className="label-text">Email</span>
       </label>
@@ -204,7 +269,6 @@ Also, update the return of the `Login` component to use DaisyUI.
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      {/* Password with toggle */}
       <label className="label">
         <span className="label-text">Password</span>
       </label>
@@ -224,12 +288,16 @@ Also, update the return of the `Login` component to use DaisyUI.
         </button>
       </div>
 
-      {/* Submit */}
-      <button onClick={login} className="btn btn-primary w-full">
-        Login
+      <button
+        onClick={login}
+        className={`btn btn-primary w-full ${loading ? "loading" : ""}`}
+        disabled={loading}
+      >
+        {loading ? "Logging in..." : "Login"}
       </button>
     </div>
   );
+}
 ```
 Remember to apply similar changes to the register component.
 
